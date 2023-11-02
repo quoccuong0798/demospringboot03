@@ -1,9 +1,9 @@
 package com.cybersoft.demospringboot03.controller;
 
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.cybersoft.demospringboot03.payload.request.LoginRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Controller:  duùng để định nghĩa đường dẫn mà nội dung đường dẫn trả ra một trang html
@@ -16,13 +16,31 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/hello")
 public class HelloController {
     @GetMapping("")
-    public String hello() {
-        return "Hello Springboot";
+    public String hello(@RequestParam String hoten,@RequestParam int tuoi) {
+
+        return "Hello Springboot "+hoten +" "+tuoi;
     }
 
-    @GetMapping("/cybersoft")
-    public String helloCybersoft() {
-        return "Hello Cybersoft";
+    @PostMapping("/cybersoft")
+    public String helloCybersoft(@RequestBody LoginRequest loginRequest) {
+        return "Hello Cybersoft: "+loginRequest.getUsername()+"-"+loginRequest.getPassword();
     }
 
+    @PostMapping("/cuong")
+    public String helloCuong(@RequestParam String hoten,@RequestParam String tuoi) {
+        return "Hello Cường"+"-"+hoten+"-"+tuoi;
+    }
+    // tham số truyền trên trình duyệt, tham số truyền ngầm: @RequestParam
+    // tham số đóng vai trò như một đường dẫn:@PathVariable
+    // tham số là đối tuơng@RequestBody
+    //formdata: tham số truyền ngam va cho phep truyen file len
+    //form Url and code: không hỗ trợ truyền file
+
+    //raw tham số truyền lên là đối tượng
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> update(@PathVariable int id) {
+        return new ResponseEntity<>("Update "+id, HttpStatus.OK);
+
+    }
 }
+
